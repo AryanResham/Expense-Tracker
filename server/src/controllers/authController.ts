@@ -54,7 +54,7 @@ export const handleSessionLogin= async (req: Request, res: Response)=> {
     res.cookie("session", cookie, {
       httpOnly: true,
       secure: isProd, 
-      sameSite: "lax", 
+      sameSite: "none", 
       maxAge: FIVE_DAYS
 
     })
@@ -64,7 +64,7 @@ export const handleSessionLogin= async (req: Request, res: Response)=> {
     res.cookie("userId", data[0].id, {
       httpOnly: false,
       secure: isProd, 
-      sameSite: "lax", 
+      sameSite: "none", 
       maxAge: FIVE_DAYS
     })
     return res.status(200).json({success: true})
