@@ -24,7 +24,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 // Routes
-app.get('/', (_req, res) => {
+app.get('/healthz', (_req, res) => {
 
   res.status(200).json({
     success: true,
