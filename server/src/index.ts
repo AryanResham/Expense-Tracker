@@ -12,10 +12,13 @@ dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+const origins = process.env.CORS_ORIGIN
+  ? process.env.CORS_ORIGIN.split(",").map(o => o.trim())
+  : [];
 
 // Middleware
 app.use(cors({
-  origin: process.env.CORS_ORIGIN || 'http://localhost:5173',
+  origin: origins,
   credentials: true
 }));
 
