@@ -58,6 +58,7 @@ export const AuthProvider = (props: { children: React.ReactNode }) => {
     const logInWithEmail = async (email: string, password: string) => {
         try {
             const firebaseResult = await signInWithEmailAndPassword(auth, email, password);
+            console.log("Firebase login successful", firebaseResult.user);
             const backendUser = await completeLogin(firebaseResult.user);
             setUser(backendUser);
             return { firebaseUser: firebaseResult.user, backendUser };

@@ -1,6 +1,7 @@
 import { type Request, type Response } from "express";
 import { firebaseAdmin } from "../services/firebaseAdmin.js"
 import {supabase} from "../services/supabase.js"
+import { clear } from "console";
 
 
 
@@ -15,8 +16,14 @@ const registerUserInDb = async (uid: string, email: string, name: string, pictur
         name: name ?? null,
         avatar_url: picture ?? null,
     }
-  ]).select();
-  console.log("data - ", data)
+  ], {
+    onConflict: 'firebase_uid'
+  }).select();
+ 
+  if (error) {
+    console.error("Supabase error details:", error);
+    throw error;
+  }
   return { data, error };
 }
 
@@ -64,6 +71,8 @@ export const handleSessionLogin= async (req: Request, res: Response)=> {
 
   }catch(err){
     console.error("Error creating session cookie", err)
+    res.clearCookie("session", {path: '/'})
+    res.clearCookie("userId", {path: '/'})
     return res.status(401).json({ success: false, error: "Unauthorized" })
   }
 }
